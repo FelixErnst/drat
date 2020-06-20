@@ -4,7 +4,14 @@
 \alias{initRepo}
 \title{Intialize a git repo for drat}
 \usage{
-initRepo(name = "drat", basepath = "~/git")
+initRepo(
+  name = "drat",
+  basepath = "~/git",
+  type = c("source", "binary", "mac.binary", "mac.binary.el-capitan",
+    "mac.binary.mavericks", "win.binary", "both"),
+  version = getRversion(),
+  initGit = FALSE
+)
 }
 \arguments{
 \item{name}{A character variable with the name the new repository,
@@ -13,22 +20,39 @@ the default is \dQuote{drat}.}
 \item{basepath}{A character variable with path to the directory in
 which the new repository is to be created. The default value is
 \dQuote{"~/git"}.}
+
+\item{type}{type(s) of packages the repo should be initialized for.}
+
+\item{version}{the version(s) of the packages the repo should be initialized
+for. Only used if \code{type} contains a \sQuote{binary} type. (default:
+\code{version = getRversion()})}
+
+\item{initGit}{\code{TRUE} or \code{FALSE}: Should a git repo be 
+initialized? (default: \code{initGit = FALSE})}
 }
 \value{
 The function is invoked for its side-effects and only
 returns \code{NULL} invisibly.
 }
 \description{
-This helper function create a new repository, creates and checks
-out \sQuote{gh-pages} branch and fills it with the required path.
+This helper function create a new repository, optionally creates and checks
+out a git branch (default: \code{gh-pages}) and fills it with the required 
+paths for \sQuote{source} and \sQuote{binary} packages.
 }
 \details{
-Currently only \sQuote{src/contrib} for source repositories is
-supported.
-
 This function is still undergoing development and polish and may
 change in subsequent versions.
 }
+\section{Options}{
+
+
+Set using \code{\link{options}}
+
+\describe{
+  \item{\code{dratBranch}}{The git branch to store packages on. Defaults to \code{gh-pages}}
+}
+}
+
 \author{
 Dirk Eddelbuettel
 }
