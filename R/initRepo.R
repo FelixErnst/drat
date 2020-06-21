@@ -64,6 +64,12 @@ initRepo <- function(name = "drat", basepath = "~/git",
     # get directories
     dirs <- lapply(version, .get_type_directories, dir = dir, type = type)
     dirs <- unique(unlist(dirs))
+    if(length(dirs) == 0L){
+        stop("Combinations of types '",paste(type, collapse = "', '"),"' and ",
+             "versions '",paste(version, collapse = "', '"),"' are not ",
+             "compatible. No repo directories were initialized.",
+             call. = FALSE)
+    }
     # create directories
     lapply(dirs, dir.create, recursive = TRUE)
     invisible(NULL)
@@ -72,6 +78,9 @@ initRepo <- function(name = "drat", basepath = "~/git",
 .get_type_directories <- function(version, dir, type){
     # subset to types for mac.binary
     type <- .subset_mac_binary_type(type, version)
+    if(length(type) == 0L){
+        return(NULL)
+    }
     # get dirs
     contrib.url2(dir,type = type, version = version)
 }
